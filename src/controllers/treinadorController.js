@@ -1,70 +1,51 @@
-const { treinadores, getProximoId } = require('../data/treinadores');
-const { pokemons } = require('../data/pokemons');
+// Controller: Lida apenas com requisição e resposta HTTP
+const treinadorService = require('../services/treinadorService');
+const pokemonService = require('../services/pokemonService');
 
-// Listar todos os treinadores
 exports.listarTodos = (req, res) => {
-  res.json(treinadores);
+  try {
+    const treinadores = treinadorService.listarTodos();
+    res.json(treinadores);
+  } catch (error) {
+    res.status(error.status || 500).json({ erro: error.message });
+  }
 };
 
-// Buscar treinador por ID
 exports.buscarPorId = (req, res) => {
-  const id = parseInt(req.params.id);
-  const treinador = treinadores.find(t => t.id === id);
-  
-  if (!treinador) {
-    return res.status(404).json({ erro: "Treinador não encontrado" });
+  try {
+    const id = parseInt(req.params.id);
+    const treinador = treinadorService.buscarPorId(id);
+    res.json(treinador);
+  } catch (error) {
+    res.status(error.status || 500).json({ erro: error.message });
   }
-  
-  res.json(treinador);
 };
 
-// Cadastrar novo treinador
 exports.cadastrar = (req, res) => {
-  const { nome } = req.body;
-  
-  // Validação: nome é obrigatório
-  if (!nome || nome.trim() === '') {
-    return res.status(400).json({ erro: "Nome do treinador é obrigatório" });
+  try {
+    const novoTreinador = treinadorService.cadastrar(req.body);
+    res.status(201).json(novoTreinador);
+  } catch (error) {
+    res.status(error.status || 500).json({ erro: error.message });
   }
-  
-  const novoTreinador = {
-    id: getProximoId(),
-    nome: nome.trim()
-  };
-  
-  treinadores.push(novoTreinador);
-  res.status(201).json(novoTreinador);
 };
 
-// Atualizar treinador
 exports.atualizar = (req, res) => {
-  const id = parseInt(req.params.id);
-  const { nome } = req.body;
-  
-  const index = treinadores.findIndex(t => t.id === id);
-  
-  if (index === -1) {
-    return res.status(404).json({ erro: "Treinador não encontrado" });
+  try {
+    const id = parseInt(req.params.id);
+    const treinadorAtualizado = treinadorService.atualizar(id, req.body);
+    res.json(treinadorAtualizado);
+  } catch (error) {
+    res.status(error.status || 500).json({ erro: error.message });
   }
-  
-  // Validação: nome é obrigatório
-  if (!nome || nome.trim() === '') {
-    return res.status(400).json({ erro: "Nome do treinador é obrigatório" });
-  }
-  
-  treinadores[index].nome = nome.trim();
-  res.json(treinadores[index]);
 };
 
-// Listar pokémons de um treinador
 exports.listarPokemons = (req, res) => {
-  const id = parseInt(req.params.id);
-  const treinador = treinadores.find(t => t.id === id);
-  
-  if (!treinador) {
-    return res.status(404).json({ erro: "Treinador não encontrado" });
+  try {
+    const id = parseInt(req.params.id);
+    const pokemons = pokemonService.listarPorTreinador(id);
+    res.json(pokemons);
+  } catch (error) {
+    res.status(error.status || 500).json({ erro: error.message });
   }
-  
-  const pokemonsDoTreinador = pokemons.filter(p => p.treinador_id === id);
-  res.json(pokemonsDoTreinador);
 };

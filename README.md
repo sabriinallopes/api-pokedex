@@ -1,6 +1,10 @@
-# API Pokémon
+# 🔴 API Pokédex
 
 API REST para gerenciar treinadores, pokémons e batalhas.
+
+**Arquitetura:** Clean Architecture + SOLID  
+**Frontend:** Interface web incluída  
+**Armazenamento:** Em memória (seed reinicializado a cada start)
 
 ## Instalação
 
@@ -21,6 +25,21 @@ npm run dev
 ```
 
 A API estará disponível em `http://localhost:3000`
+
+## 🏗️ Arquitetura
+
+O projeto segue **Clean Architecture** e princípios **SOLID**:
+
+```
+src/
+├── routes/         # Definição de rotas
+├── controllers/    # Manipulação HTTP (req/res)
+├── services/       # Lógica de negócio
+├── repositories/   # Acesso aos dados
+└── frontend/       # Interface web
+```
+
+📖 **Documentação completa:** [ARQUITETURA.md](./ARQUITETURA.md)
 
 ## Endpoints
 
