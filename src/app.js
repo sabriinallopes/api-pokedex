@@ -1,33 +1,27 @@
 const express = require('express');
+const cors = require('cors');
+const path = require('path');
+
 const treinadorRoutes = require('./routes/treinadorRoutes');
 const pokemonRoutes = require('./routes/pokemonRoutes');
 const batalhaRoutes = require('./routes/batalhaRoutes');
 
 const app = express();
 
-// Middleware para parsing de JSON
+app.use(cors());
 app.use(express.json());
 
-// Rotas
+/* 🔴 ROTAS DA API PRIMEIRO */
 app.use('/treinadores', treinadorRoutes);
 app.use('/pokemons', pokemonRoutes);
 app.use('/batalhas', batalhaRoutes);
 
-// Rota raiz
-app.get('/', (req, res) => {
-  res.json({ 
-    mensagem: "API Pokémon - Gerenciamento de Treinadores e Batalhas",
-    endpoints: {
-      treinadores: "/treinadores",
-      pokemons: "/pokemons",
-      batalhas: "/batalhas"
-    }
-  });
-});
+/* 🟢 SERVIR FRONTEND */
+app.use(express.static(path.join(__dirname, 'frontend')));
 
-// Tratamento de rotas não encontradas
-app.use((req, res) => {
-  res.status(404).json({ erro: "Rota não encontrada" });
+/* 🟡 FALLBACK PARA O INDEX.HTML */
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
 });
 
 module.exports = app;

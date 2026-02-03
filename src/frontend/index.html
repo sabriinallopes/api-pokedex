@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokédex - Sistema de Batalhas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚡ Pokédex ⚡</h1>
+            <p>Sistema de Gerenciamento e Batalhas</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="treinadores">👤 Treinadores</button>
+            <button class="tab-btn" data-tab="pokemons">🔴 Pokémons</button>
+            <button class="tab-btn" data-tab="batalhas">⚔️ Batalhas</button>
+        </div>
+
+        <!-- Treinadores -->
+        <div class="tab-content active" id="treinadores">
+            <div class="section">
+                <h2>Cadastrar Treinador</h2>
+                <form id="form-treinador">
+                    <input id="nome-treinador" type="text" placeholder="Nome do treinador" required>
+                    <button type="submit">Cadastrar</button>
+                </form>
+            </div>
+
+            <div class="section">
+                <h2>Lista de Treinadores</h2>
+                <div id="lista-treinadores" class="lista"></div>
+            </div>
+        </div>
+
+        <!-- Pokémons -->
+        <div class="tab-content" id="pokemons">
+            <div class="section">
+                <h2>Cadastrar Pokémon</h2>
+                <form id="form-pokemon">
+                    <input id="nome-pokemon" type="text" placeholder="Nome do Pokémon" required>
+                    <select id="tipo-pokemon" required>
+                        <option value="">Selecione o tipo</option>
+                        <option value="fogo">🔥 Fogo</option>
+                        <option value="agua">💧 Água</option>
+                        <option value="planta">🌿 Planta</option>
+                        <option value="eletrico">⚡ Elétrico</option>
+                        <option value="normal">⭐ Normal</option>
+                    </select>
+                    <input id="nivel-pokemon" type="number" placeholder="Nível" min="1" value="1" required>
+                    <select id="treinador-pokemon" required>
+                        <option value="">Selecione o treinador</option>
+                    </select>
+                    <button type="submit">Cadastrar Pokémon</button>
+                </form>
+            </div>
+
+            <div class="section">
+                <h2>Lista de Pokémons</h2>
+                <div id="lista-pokemons" class="lista"></div>
+            </div>
+        </div>
+
+        <!-- Batalhas -->
+        <div class="tab-content" id="batalhas">
+            <div class="section">
+                <h2>Simular Batalha</h2>
+                <form id="form-batalha">
+                    <select id="pokemon-atacante" required>
+                        <option value="">Selecione o atacante</option>
+                    </select>
+                    <span class="vs">VS</span>
+                    <select id="pokemon-defensor" required>
+                        <option value="">Selecione o defensor</option>
+                    </select>
+                    <button type="submit">Batalhar!</button>
+                </form>
+            </div>
+
+            <div class="section" id="resultado-batalha" style="display:none">
+                <h2>Resultado da Batalha</h2>
+                <div id="resultado-conteudo"></div>
+            </div>
+        </div>
+
+        <div id="mensagem" class="mensagem"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
